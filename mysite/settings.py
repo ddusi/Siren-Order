@@ -25,7 +25,7 @@ from decouple import config
 SECRET_KEY = '0nm2zd-l+yj4n^szih%ed4xb9k%&lb3m6n%g@*#*s5kz_7zl^2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -33,20 +33,21 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #apps
+    # apps
     'apps.client',
     'apps.logistics',
     'apps.order',
     'apps.payment',
 
     # lib
+    'mptt',
     'simple_history',
     'django_extensions',
 ]

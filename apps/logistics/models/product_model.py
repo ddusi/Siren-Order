@@ -11,26 +11,20 @@ class Product(TimeStampedModel, ActivatorModel):
         Grande = 'grande'
         Venti = 'venti'
 
-    class Kind(models.TextChoices):
-        null = ''
-        Coffee = 'coffee'
-        Tea = 'tea'
-        MD = 'MD_product'
-        Frappuccino = 'frappuccino'
-        Blended = 'blended'
-
-    pd_num = models.CharField('상품번호', max_length=200)
+    pd_num = models.CharField('상품번호', max_length=100, unique=True, db_index=True)
     name = models.CharField('상품명', max_length=200)
     price = models.IntegerField('가격', default=0)
-    kind = models.CharField('상품 종류', choices=Kind.choices, max_length=200, default='')
     size = models.CharField('사이즈', choices=Size.choices, max_length=8, blank=True, default='')
+
+    kind = models.ForeignKey('logistics.kind', verbose_name='상품종류', related_name='kind_set', on_delete=models.CASCADE)
+
     history = HistoricalRecords(
         history_change_reason_field=models.TextField(null=True)
     )
 
     class Meta:
         verbose_name = '상품'
-        verbose_name_plural = '상품 모음'
+        verbose_name_plural = '상품 목록'
         ordering = ['pd_num']
 
     def __str__(self):
