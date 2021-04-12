@@ -17,87 +17,228 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Kind',
+            name="Kind",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, unique=True)),
-                ('lft', models.PositiveIntegerField(editable=False)),
-                ('rght', models.PositiveIntegerField(editable=False)),
-                ('tree_id', models.PositiveIntegerField(db_index=True, editable=False)),
-                ('level', models.PositiveIntegerField(editable=False)),
-                ('parent',
-                 mptt.fields.TreeForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
-                                            related_name='children', to='logistics.kind')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50, unique=True)),
+                ("lft", models.PositiveIntegerField(editable=False)),
+                ("rght", models.PositiveIntegerField(editable=False)),
+                ("tree_id", models.PositiveIntegerField(db_index=True, editable=False)),
+                ("level", models.PositiveIntegerField(editable=False)),
+                (
+                    "parent",
+                    mptt.fields.TreeForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="children",
+                        to="logistics.kind",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created',
-                 django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created')),
-                ('modified',
-                 django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified')),
-                ('status',
-                 models.IntegerField(choices=[(0, 'Inactive'), (1, 'Active')], default=1, verbose_name='status')),
-                ('activate_date',
-                 models.DateTimeField(blank=True, help_text='keep empty for an immediate activation', null=True)),
-                ('deactivate_date',
-                 models.DateTimeField(blank=True, help_text='keep empty for indefinite activation', null=True)),
-                ('pd_num', models.CharField(db_index=True, max_length=100, unique=True, verbose_name='상품번호')),
-                ('name', models.CharField(max_length=200, verbose_name='상품명')),
-                ('price', models.IntegerField(default=0, verbose_name='가격')),
-                ('size', models.CharField(blank=True, choices=[('', 'Null'), ('tall', 'Tall'), ('grande', 'Grande'),
-                                                               ('venti', 'Venti')], default='', max_length=8,
-                                          verbose_name='사이즈')),
-                ('kind', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='kind_set',
-                                           to='logistics.kind', verbose_name='상품종류')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    django_extensions.db.fields.CreationDateTimeField(
+                        auto_now_add=True, verbose_name="created"
+                    ),
+                ),
+                (
+                    "modified",
+                    django_extensions.db.fields.ModificationDateTimeField(
+                        auto_now=True, verbose_name="modified"
+                    ),
+                ),
+                (
+                    "status",
+                    models.IntegerField(
+                        choices=[(0, "Inactive"), (1, "Active")],
+                        default=1,
+                        verbose_name="status",
+                    ),
+                ),
+                (
+                    "activate_date",
+                    models.DateTimeField(
+                        blank=True,
+                        help_text="keep empty for an immediate activation",
+                        null=True,
+                    ),
+                ),
+                (
+                    "deactivate_date",
+                    models.DateTimeField(
+                        blank=True,
+                        help_text="keep empty for indefinite activation",
+                        null=True,
+                    ),
+                ),
+                (
+                    "pd_num",
+                    models.CharField(
+                        db_index=True, max_length=100, unique=True, verbose_name="상품번호"
+                    ),
+                ),
+                ("name", models.CharField(max_length=200, verbose_name="상품명")),
+                ("price", models.IntegerField(default=0, verbose_name="가격")),
+                (
+                    "size",
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ("", "Null"),
+                            ("tall", "Tall"),
+                            ("grande", "Grande"),
+                            ("venti", "Venti"),
+                        ],
+                        default="",
+                        max_length=8,
+                        verbose_name="사이즈",
+                    ),
+                ),
+                (
+                    "kind",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="kind_set",
+                        to="logistics.kind",
+                        verbose_name="상품종류",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': '상품',
-                'verbose_name_plural': '상품 모음',
-                'ordering': ['pd_num'],
+                "verbose_name": "상품",
+                "verbose_name_plural": "상품 모음",
+                "ordering": ["pd_num"],
             },
         ),
         migrations.CreateModel(
-            name='HistoricalProduct',
+            name="HistoricalProduct",
             fields=[
-                ('id', models.IntegerField(auto_created=True, blank=True, db_index=True, verbose_name='ID')),
-                ('created',
-                 django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created')),
-                ('modified',
-                 django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified')),
-                ('status',
-                 models.IntegerField(choices=[(0, 'Inactive'), (1, 'Active')], default=1, verbose_name='status')),
-                ('activate_date',
-                 models.DateTimeField(blank=True, help_text='keep empty for an immediate activation', null=True)),
-                ('deactivate_date',
-                 models.DateTimeField(blank=True, help_text='keep empty for indefinite activation', null=True)),
-                ('pd_num', models.CharField(db_index=True, max_length=100, verbose_name='상품번호')),
-                ('name', models.CharField(max_length=200, verbose_name='상품명')),
-                ('price', models.IntegerField(default=0, verbose_name='가격')),
-                ('size', models.CharField(blank=True, choices=[('', 'Null'), ('tall', 'Tall'), ('grande', 'Grande'),
-                                                               ('venti', 'Venti')], default='', max_length=8,
-                                          verbose_name='사이즈')),
-                ('history_change_reason', models.TextField(null=True)),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
-                ('history_date', models.DateTimeField()),
-                ('history_type',
-                 models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
-                ('history_user',
-                 models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+',
-                                   to=settings.AUTH_USER_MODEL)),
-                ('kind', models.ForeignKey(blank=True, db_constraint=False, null=True,
-                                           on_delete=django.db.models.deletion.DO_NOTHING, related_name='+',
-                                           to='logistics.kind', verbose_name='상품종류')),
+                (
+                    "id",
+                    models.IntegerField(
+                        auto_created=True, blank=True, db_index=True, verbose_name="ID"
+                    ),
+                ),
+                (
+                    "created",
+                    django_extensions.db.fields.CreationDateTimeField(
+                        auto_now_add=True, verbose_name="created"
+                    ),
+                ),
+                (
+                    "modified",
+                    django_extensions.db.fields.ModificationDateTimeField(
+                        auto_now=True, verbose_name="modified"
+                    ),
+                ),
+                (
+                    "status",
+                    models.IntegerField(
+                        choices=[(0, "Inactive"), (1, "Active")],
+                        default=1,
+                        verbose_name="status",
+                    ),
+                ),
+                (
+                    "activate_date",
+                    models.DateTimeField(
+                        blank=True,
+                        help_text="keep empty for an immediate activation",
+                        null=True,
+                    ),
+                ),
+                (
+                    "deactivate_date",
+                    models.DateTimeField(
+                        blank=True,
+                        help_text="keep empty for indefinite activation",
+                        null=True,
+                    ),
+                ),
+                (
+                    "pd_num",
+                    models.CharField(
+                        db_index=True, max_length=100, verbose_name="상품번호"
+                    ),
+                ),
+                ("name", models.CharField(max_length=200, verbose_name="상품명")),
+                ("price", models.IntegerField(default=0, verbose_name="가격")),
+                (
+                    "size",
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ("", "Null"),
+                            ("tall", "Tall"),
+                            ("grande", "Grande"),
+                            ("venti", "Venti"),
+                        ],
+                        default="",
+                        max_length=8,
+                        verbose_name="사이즈",
+                    ),
+                ),
+                ("history_change_reason", models.TextField(null=True)),
+                ("history_id", models.AutoField(primary_key=True, serialize=False)),
+                ("history_date", models.DateTimeField()),
+                (
+                    "history_type",
+                    models.CharField(
+                        choices=[("+", "Created"), ("~", "Changed"), ("-", "Deleted")],
+                        max_length=1,
+                    ),
+                ),
+                (
+                    "history_user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "kind",
+                    models.ForeignKey(
+                        blank=True,
+                        db_constraint=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="+",
+                        to="logistics.kind",
+                        verbose_name="상품종류",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'historical 상품',
-                'ordering': ('-history_date', '-history_id'),
-                'get_latest_by': 'history_date',
+                "verbose_name": "historical 상품",
+                "ordering": ("-history_date", "-history_id"),
+                "get_latest_by": "history_date",
             },
             bases=(simple_history.models.HistoricalChanges, models.Model),
         ),

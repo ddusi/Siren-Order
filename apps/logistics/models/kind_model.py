@@ -4,11 +4,13 @@ from mptt.models import MPTTModel, TreeForeignKey
 
 class Kind(MPTTModel):
     name = models.CharField(max_length=50, unique=True)
-    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    parent = TreeForeignKey(
+        "self", on_delete=models.CASCADE, null=True, blank=True, related_name="children"
+    )
 
     class MPTTMeta:
-        order_insertion_by = ['name']
+        order_insertion_by = ["name"]
 
     class Meta:
-        verbose_name = '상품 종류'
-        verbose_name_plural = '상품 종류 목록'
+        verbose_name = "상품 종류"
+        verbose_name_plural = "상품 종류 목록"

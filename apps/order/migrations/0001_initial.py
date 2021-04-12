@@ -11,74 +11,186 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('client', '0001_initial'),
-        ('logistics', '0001_initial'),
+        ("client", "0001_initial"),
+        ("logistics", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Order',
+            name="Order",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created',
-                 django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created')),
-                ('modified',
-                 django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified')),
-                ('state', models.CharField(
-                    choices=[('pending', '대기'), ('payed', '결제완료'), ('manufacturing', '제조중'), ('complete', '완료'),
-                             ('cancel', '취소')], default='pending', max_length=32, verbose_name='주문상태')),
-                ('amount', models.IntegerField(default=0, verbose_name='주문금액')),
-                ('assignment',
-                 models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='assignment_set',
-                                   to=settings.AUTH_USER_MODEL, verbose_name='담당직원')),
-                ('ordered_merchant',
-                 models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='ordered_merchant_set',
-                                   to='client.merchant', verbose_name='주문받은 매장')),
-                ('orderer',
-                 models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='orderer_set',
-                                   to=settings.AUTH_USER_MODEL, verbose_name='주문자')),
-                ('product', models.ManyToManyField(to='logistics.Product', verbose_name='주문상품')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    django_extensions.db.fields.CreationDateTimeField(
+                        auto_now_add=True, verbose_name="created"
+                    ),
+                ),
+                (
+                    "modified",
+                    django_extensions.db.fields.ModificationDateTimeField(
+                        auto_now=True, verbose_name="modified"
+                    ),
+                ),
+                (
+                    "state",
+                    models.CharField(
+                        choices=[
+                            ("pending", "대기"),
+                            ("payed", "결제완료"),
+                            ("manufacturing", "제조중"),
+                            ("complete", "완료"),
+                            ("cancel", "취소"),
+                        ],
+                        default="pending",
+                        max_length=32,
+                        verbose_name="주문상태",
+                    ),
+                ),
+                ("amount", models.IntegerField(default=0, verbose_name="주문금액")),
+                (
+                    "assignment",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="assignment_set",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="담당직원",
+                    ),
+                ),
+                (
+                    "ordered_merchant",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="ordered_merchant_set",
+                        to="client.merchant",
+                        verbose_name="주문받은 매장",
+                    ),
+                ),
+                (
+                    "orderer",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="orderer_set",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="주문자",
+                    ),
+                ),
+                (
+                    "product",
+                    models.ManyToManyField(to="logistics.Product", verbose_name="주문상품"),
+                ),
             ],
             options={
-                'verbose_name': '주문',
-                'verbose_name_plural': '주문 목록',
+                "verbose_name": "주문",
+                "verbose_name_plural": "주문 목록",
             },
         ),
         migrations.CreateModel(
-            name='HistoricalOrder',
+            name="HistoricalOrder",
             fields=[
-                ('id', models.IntegerField(auto_created=True, blank=True, db_index=True, verbose_name='ID')),
-                ('created',
-                 django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created')),
-                ('modified',
-                 django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified')),
-                ('state', models.CharField(
-                    choices=[('pending', '대기'), ('payed', '결제완료'), ('manufacturing', '제조중'), ('complete', '완료'),
-                             ('cancel', '취소')], default='pending', max_length=32, verbose_name='주문상태')),
-                ('amount', models.IntegerField(default=0, verbose_name='주문금액')),
-                ('history_change_reason', models.TextField(null=True)),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
-                ('history_date', models.DateTimeField()),
-                ('history_type',
-                 models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
-                ('assignment', models.ForeignKey(blank=True, db_constraint=False, null=True,
-                                                 on_delete=django.db.models.deletion.DO_NOTHING, related_name='+',
-                                                 to=settings.AUTH_USER_MODEL, verbose_name='담당직원')),
-                ('history_user',
-                 models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+',
-                                   to=settings.AUTH_USER_MODEL)),
-                ('ordered_merchant', models.ForeignKey(blank=True, db_constraint=False, null=True,
-                                                       on_delete=django.db.models.deletion.DO_NOTHING, related_name='+',
-                                                       to='client.merchant', verbose_name='주문받은 매장')),
-                ('orderer', models.ForeignKey(blank=True, db_constraint=False, null=True,
-                                              on_delete=django.db.models.deletion.DO_NOTHING, related_name='+',
-                                              to=settings.AUTH_USER_MODEL, verbose_name='주문자')),
+                (
+                    "id",
+                    models.IntegerField(
+                        auto_created=True, blank=True, db_index=True, verbose_name="ID"
+                    ),
+                ),
+                (
+                    "created",
+                    django_extensions.db.fields.CreationDateTimeField(
+                        auto_now_add=True, verbose_name="created"
+                    ),
+                ),
+                (
+                    "modified",
+                    django_extensions.db.fields.ModificationDateTimeField(
+                        auto_now=True, verbose_name="modified"
+                    ),
+                ),
+                (
+                    "state",
+                    models.CharField(
+                        choices=[
+                            ("pending", "대기"),
+                            ("payed", "결제완료"),
+                            ("manufacturing", "제조중"),
+                            ("complete", "완료"),
+                            ("cancel", "취소"),
+                        ],
+                        default="pending",
+                        max_length=32,
+                        verbose_name="주문상태",
+                    ),
+                ),
+                ("amount", models.IntegerField(default=0, verbose_name="주문금액")),
+                ("history_change_reason", models.TextField(null=True)),
+                ("history_id", models.AutoField(primary_key=True, serialize=False)),
+                ("history_date", models.DateTimeField()),
+                (
+                    "history_type",
+                    models.CharField(
+                        choices=[("+", "Created"), ("~", "Changed"), ("-", "Deleted")],
+                        max_length=1,
+                    ),
+                ),
+                (
+                    "assignment",
+                    models.ForeignKey(
+                        blank=True,
+                        db_constraint=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="담당직원",
+                    ),
+                ),
+                (
+                    "history_user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "ordered_merchant",
+                    models.ForeignKey(
+                        blank=True,
+                        db_constraint=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="+",
+                        to="client.merchant",
+                        verbose_name="주문받은 매장",
+                    ),
+                ),
+                (
+                    "orderer",
+                    models.ForeignKey(
+                        blank=True,
+                        db_constraint=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="주문자",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'historical 주문',
-                'ordering': ('-history_date', '-history_id'),
-                'get_latest_by': 'history_date',
+                "verbose_name": "historical 주문",
+                "ordering": ("-history_date", "-history_id"),
+                "get_latest_by": "history_date",
             },
             bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
