@@ -1,10 +1,14 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>maindo</title>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <script
+        src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="nav">
@@ -14,78 +18,72 @@
         <div class="nav-item">메뉴3</div>
         <div class="nav-item">메뉴4</div>
     </div>
+
 </div>
 
 <div class="main">
     <div class="title">
-        Pricing
+        Class
     </div>
     <div class="subtitle">
-        for batch_idx, (data1, data2, data3) in enumerate(test_loader):
-        if args.cuda:
-        data1, data2, data3 = data1.cuda(), data2.cuda(), data3.cuda()
-        data1, data2, data3 = Variable(data1), Variable(data2), Variable(data3)
+        dfjsdlkfajslfksjdlfksdjlkfjsdlkfjsdflksajdflksdjflksdafjslkdfjsladkfjsadlkfjsdlfkasjdflsadjkjasfdlk
+        sdfjlskdfjalskdjfskladjflaksdj
     </div>
-    <div class="price">
-        <div class="price-item">
-            <div class="price-item-title">
-                Free
+
+    <div class="prices">
+        {% for item in items %}
+            <div class="price-item"> <!--button1-->
+                <div class="price-item-title">
+                    {{ item.name }}
+                </div>
+                <div class="price-item-price">
+                    {{ item.price }}
+                </div>
+                <div class="price-item-kind">
+                    {{ item.kind }}
+                </div>
+                <div class="price-item-size">
+                    {{ item.size }}
+                </div>
+                <button class="price-item-button  price-item-button--active order-button">
+                    주문하기
+                </button>
             </div>
-            <div class="price-item-price">
-                $0 / mo
-            </div>
-            <div class="price-item-detail">
-                10 users include
-            </div>
-            <button class="price-item-button">
-                Click me
-            </button>
-        </div>
-        <div class="price-item">
-            <div class="price-item-title">
-                Free
-            </div>
-            <div class="price-item-price">
-                $0 / mo
-            </div>
-            <div class="price-item-detail">
-                10 users include
-            </div>
-            <button class="price-item-button">
-                Click me
-            </button>
-        </div>
-        <div class="price-item">
-            <div class="price-item-title">
-                Free
-            </div>
-            <div class="price-item-price">
-                $0 / mo
-            </div>
-            <div class="price-item-detail">
-                10 users include
-            </div>
-            <button class="price-item-button">
-                Click me
-            </button>
-        </div>
+        {% endfor %}
     </div>
 </div>
 
 
+<script src="script.js"></script>
+
 </body>
+<script>
+    $('.order-button').on('click', function () {
+        console.log('call!!!!!!!')
+        $.ajax({
+            url: "/examples/media/request_ajax.php", // 클라이언트가 요청을 보낼 서버의 URL 주소
+            data: {name: "홍길동"},                // HTTP 요청과 함께 서버로 보낼 데이터
+            type: "GET",                             // HTTP 요청 방식(GET, POST)
+            dataType: "json"                         // 서버에서 보내줄 데이터의 타입
+        })
+    });
+</script>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+
     .nav {
         height: 70px;
         border-bottom: 1px solid black;
         display: flex;
         align-items: center;
+        background: rgba(0, 0, 0, .03);
     }
 
     .nav-right-items {
         display: flex;
         margin-left: auto;
+        color: black;
     }
 
     .nav-item {
@@ -94,7 +92,7 @@
 
     .title {
         text-align: center;
-        font-size: 60px;
+        font-size: 3.5rem;
         font-weight: bold;
     }
 
@@ -105,30 +103,31 @@
     }
 
     .main {
+        width: 1000px;
         margin: 0 auto;
         margin-top: 60px;
-        width: 800px;
     }
 
-    .price {
+    .prices {
         display: flex;
     }
 
     .price-item {
+        position: relative;
         width: 300px;
-        height: 300px;
-        border: 1px solid black;
-        border-radius: 4px;
+        height: 350px;
+        border: 0.5px solid black;
         margin: 20px;
+        border-radius: 4px;
+        text-align: center;
     }
 
     .price-item-title {
         font-size: 1.5rem;
         background: rgba(0, 0, 0, .03);
-        text-align: center;
         height: 53px;
         line-height: 53px;
-        border-bottom: 1px solid black;
+        border-bottom: 1px;
     }
 
     .price-item-price {
@@ -138,19 +137,32 @@
     }
 
     .price-item-button {
-        padding: .5rem 1rem;
+        position: absolute;
         font-size: 1.25rem;
+        padding: .5rem 1rem;
         line-height: 1.5;
         border-radius: .3rem;
-        color: #007bff;
         background-color: transparent;
         background-image: none;
         border-color: #007bff;
+        margin: auto;
+        text-align: center;
+        top: 85%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
+
+    .price-item-detail {
+        margin-bottom: 5px;
+        font-size: 18px;
+    }
+
+    .price-item-button--active {
+        background-color: #007bff;
+        color: white;
+    }
+
 
 </style>
 
-<script>
-
-</script>
 </html>
