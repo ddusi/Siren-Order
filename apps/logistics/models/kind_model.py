@@ -14,3 +14,6 @@ class Kind(MPTTModel):
     class Meta:
         verbose_name = "상품 종류"
         verbose_name_plural = "상품 종류 목록"
+
+    def __str__(self):
+        return self.name
